@@ -18,9 +18,9 @@ namespace Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Worker\OpenSearch
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\OpenSearchException;
 use OpenSearch\Common\Exceptions\RequestTimeout408Exception;
-use OpenSearch\Client;
 use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\OpenSearch;
 use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\SearchConfigInterface;
 use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Interpreter\RelationInterpreterInterface;
