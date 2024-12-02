@@ -18,6 +18,8 @@ namespace Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Worker\OpenSearch
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use OpenSearch\Common\Exceptions\OpenSearchException;
+use OpenSearch\Common\Exceptions\RequestTimeout408Exception;
 use OpenSearch\Client;
 use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\OpenSearch;
 use Pimcore\Bundle\EcommerceFrameworkBundle\IndexService\Config\SearchConfigInterface;
@@ -871,7 +873,7 @@ abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker im
      * @param string $sourceIndexName the name of the source index in ES.
      * @param string $targetIndexName the name of the target index in ES. If existing, will be deleted
      *
-     * @throws \OpenSearch\Common\Exceptions\OpenSearchException
+     * @throws OpenSearchException
      */
     protected function performReindex(string $sourceIndexName, string $targetIndexName): void
     {
@@ -926,7 +928,7 @@ abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker im
         }
 
         if ($taskResponse === null || !isset($taskResponse['completed']) || $taskResponse['completed'] === false) {
-            throw new \OpenSearch\Common\Exceptions\RequestTimeout408Exception('reindex is not finished. Cleanup task index for task ' . $taskId);
+            throw new RequestTimeout408Exception('reindex is not finished. Cleanup task index for task ' . $taskId);
         }
 
         Logger::info(sprintf('Completed re-index in %.02f seconds.', (time() - $startTime)));
