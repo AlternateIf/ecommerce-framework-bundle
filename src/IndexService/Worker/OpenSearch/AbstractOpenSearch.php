@@ -38,6 +38,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker implements IndexRefreshInterface
 {
     const REINDEX_TIMEOUT = 200;
+
     const STORE_TABLE_NAME = 'ecommerceframework_productindex_store_opensearch';
 
     const RELATION_FIELD = 'parentchildrelation';
@@ -869,6 +870,7 @@ abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker im
      *
      * @param string $sourceIndexName the name of the source index in ES.
      * @param string $targetIndexName the name of the target index in ES. If existing, will be deleted
+     *
      * @throws \Exception
      */
     protected function performReindex(string $sourceIndexName, string $targetIndexName): void
@@ -902,7 +904,7 @@ abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker im
         // query without waiting for completion and check task status periodically
         $result = $osClient->reindex([
             'body' => $body,
-            "wait_for_completion" => false,
+            'wait_for_completion' => false,
         ]);
 
         $taskId = $result['task'];
@@ -918,6 +920,7 @@ abstract class AbstractOpenSearch extends ProductCentricBatchProcessingWorker im
                     'index' => '.tasks',
                     'id' => $taskId,
                 ]);
+
                 break;
             }
         }
